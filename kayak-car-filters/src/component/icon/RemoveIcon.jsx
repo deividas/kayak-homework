@@ -8,6 +8,6 @@ function RemoveIcon(props) {
             <path fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="2px" d="M.71.79l8.43 8.43M9.14.71L.71 9.14" />
         </svg>
     );
-};
+}
 
 export default RemoveIcon;

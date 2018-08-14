@@ -10,69 +10,87 @@ class CarFilter extends React.Component {
 
         this.state = {
             filters: [
-                {
-                    title: 'All', selected: true, multipleSelect: false, main: true
-                },
-                {
-                    title: 'Small', selected: false, multipleSelect: true, price: '$422+'
-                },
-                {
-                    title: 'Medium', selected: false, multipleSelect: true, price: '$433+'
-                },
-                {
-                    title: 'Large', selected: false, multipleSelect: true, price: '$456+'
-                },
-                {
-                    title: 'SUV', selected: false, multipleSelect: true, price: '$525+'
-                },
-                {
-                    title: 'Van', selected: false, multipleSelect: true, price: '$649+'
-                }
+                { title: 'All', selected: true, multipleSelect: false, main: true },
+                { title: 'Small', selected: false, multipleSelect: true, price: '$422+' },
+                { title: 'Medium', selected: false, multipleSelect: true, price: '$433+' },
+                { title: 'Large', selected: false, multipleSelect: true, price: '$456+' },
+                { title: 'SUV', selected: false, multipleSelect: true, price: '$525+' },
+                { title: 'Van', selected: false, multipleSelect: true, price: '$649+' }
             ],
             advancedFilterOpened: false,
             advancedFilters: [
-                {
-                    title: 'Pickup Truck', selected: false, multipleSelect: true, price: '$594'
-                },
-                {
-                    title: 'Luxury', selected: false, multipleSelect: true, price: '$626'
-                },
-                {
-                    title: 'Commercial', selected: false, multipleSelect: true, price: '$1248'
-                },
-                {
-                    title: 'Convertible', selected: false, multipleSelect: true, price: '$1607'
-                }
+                { title: 'Pickup Truck', selected: false, multipleSelect: true, price: '$594' },
+                { title: 'Luxury', selected: false, multipleSelect: true, price: '$626' },
+                { title: 'Commercial', selected: false, multipleSelect: true, price: '$1248' },
+                { title: 'Convertible', selected: false, multipleSelect: true, price: '$1607' }
             ]
         };
     }
+    
+    toggleFilter = filter => {
+        filter.selected = !filter.selected;
+    }
 
-    onBasicButtonClick = index => e => {
+    setFilterSelected = (filter, selected) => {
+        filter.selected = selected;
+    }
+
+    noFiltersSelected = (filters, advancedFilters) => {
+        return !filters.some(e => e.selected) && !advancedFilters.some(e => e.selected)
+    }
+
+    selectMainFilter = filters => {
+        filters.forEach((e, _) => {
+            if (e.main)
+                this.setFilterSelected(e, true);
+        });
+    }
+
+    unselectFilters = (filters, exceptIndex) => {
+        filters.forEach((e, i) => {
+            if (i != exceptIndex)
+                this.setFilterSelected(e, false);
+        });
+    }
+
+    unselectSingleSelectFilters = filters => {
+        filters.forEach((e, _) => {
+            if (!e.multipleSelect)
+                this.setFilterSelected(e, false);
+        });
+    }
+
+    onBasicFilterClick = index => e => {
         let state = {...this.state};
         
         let filters = state.filters;
+        let advancedFilters = state.advancedFilters;
+
         let filter = filters[index];
 
         if (filter.main && filter.selected)
             return;
 
-        filter.selected = !filter.selected;
+        this.toggleFilter(filter);
 
+        // If the current filter doesn't support multiple selection, unselect other filters
         if (!filter.multipleSelect && filter.selected) {
-            let advancedFilters = state.advancedFilters;
-
-            advancedFilters.forEach((e, i) => advancedFilters[i].selected = false);
+            this.unselectFilters(filters, index);
+            this.unselectFilters(advancedFilters, null);
         }
+        
+        // Unselect single select filters, if the current filter is a multiple selection one
+        if (filter.multipleSelect)
+            this.unselectSingleSelectFilters(filters);
 
-        filters.forEach((e, i) => {
-            if (filter.multipleSelect && !e.multipleSelect || !filter.multipleSelect && e.multipleSelect)
-                filters[i].selected = false;
-        });
+        // If the current filter is unselected and there are no other filters selected, select the main one
+        if (!filter.selected && this.noFiltersSelected(filters, advancedFilters))
+            this.selectMainFilter(filters);
 
         this.setState(state);
     }
 
-    onAdvancedButtonClick = index => e => {
+    onAdvancedFilterClick = index => e => {
         let state = {...this.state};
 
         state.advancedFilterOpen = !state.advancedFilterOpen;
@@ -80,7 +98,7 @@ class CarFilter extends React.Component {
         this.setState(state);
     }
 
-    onAdvancedButtonOutsideClick = () => {
+    onAdvancedFilterOutsideClick = () => {
         let state = {...this.state};
 
         state.advancedFilterOpen = false;
@@ -88,56 +106,60 @@ class CarFilter extends React.Component {
         this.setState(state);
     }
 
-    onSelectMultiple = index => {
+    onMultipleSelect = index => {
         let state = {...this.state};
-        let advancedFilter = state.advancedFilters[index];
 
-        advancedFilter.selected = !advancedFilter.selected;
+        let filters = state.filters;
+        let advancedFilters = state.advancedFilters;
+        let filter = advancedFilters[index];
 
-        state.filters.forEach((e, i) => {
-            if (!state.filters[i].multipleSelect && state.filters[i].selected)
-                state.filters[i].selected = false;
-        });
+        this.toggleFilter(filter);
+        this.unselectSingleSelectFilters(filters);
+
+        if (!filter.selected && this.noFiltersSelected(filters, advancedFilters))
+            this.selectMainFilter(filters);
 
         this.setState(state);
     }
 
-    onSelectSingle = index => {
+    onSingleSelect = index => {
         let state = {...this.state};
-        let advancedFilter = state.advancedFilters[index];
 
-        advancedFilter.selected = true;
-
-        state.filters.forEach((e, i) => state.filters[i].selected = false);
-
-        state.advancedFilters.forEach((e, i) => {
-            if (i != index)
-                state.advancedFilters[i].selected = false;
-        });
-
-        this.setState(state);
-    }
-
-    onRemoveSelection = () => {
-        let state = {...this.state};
+        let filters = state.filters;
         let advancedFilters = state.advancedFilters;
 
-        advancedFilters.forEach((e, i) => {
-            advancedFilters[i].selected = false;
-        });
+        this.setFilterSelected(advancedFilters[index], true);
+        this.unselectFilters(filters, null);
+        this.unselectFilters(advancedFilters, index);
+
+        this.setState(state);
+    }
+
+    onSelectionRemove = () => {
+        let state = {...this.state};
+
+        let filters = state.filters;
+        let advancedFilters = state.advancedFilters;
 
         state.advancedFilterOpen = false;
+        this.unselectFilters(advancedFilters);
+
+        if (this.noFiltersSelected(filters, advancedFilters))
+            this.selectMainFilter(filters);
 
         this.setState(state);
     }
 
     render() {
-        const { filters } = this.state;
-
+        const { filters, advancedFilterOpen, advancedFilters } = this.state;
+        
         return (
             <div className="car-filter">
-                { filters.map((e, i) => <BasicFilterButton onClick={this.onBasicButtonClick(i)} className={(e.selected ? 'selected' : '')} title={e.title} price={e.price} />)}
-                <AdvancedFilterButton onRemoveSelection={this.onRemoveSelection} onSelectMultiple={this.onSelectMultiple} onSelectSingle={this.onSelectSingle} onOutsideClick={this.onAdvancedButtonOutsideClick} onClick={this.onAdvancedButtonClick()} open={this.state.advancedFilterOpen} filters={this.state.advancedFilters} title="More" />
+                { filters.map((e, i) => <BasicFilterButton onClick={this.onBasicFilterClick(i)} selected={e.selected} title={e.title} price={e.price} />)}
+                <AdvancedFilterButton title="More"
+                    open={advancedFilterOpen} filters={advancedFilters}
+                    onClick={this.onAdvancedFilterClick()} onOutsideClick={this.onAdvancedFilterOutsideClick} 
+                    onSelectionRemove={this.onSelectionRemove} onMultipleSelect={this.onMultipleSelect} onSingleSelect={this.onSingleSelect} />
             </div>
         );
     }

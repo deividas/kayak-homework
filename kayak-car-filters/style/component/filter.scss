@@ -110,6 +110,14 @@ button:focus {
     font-family: sans-serif;
 }
 
+.filter-multiple-select.selected label {
+    color: #51697a !important;
+}
+
+.filter-dropdown-side-text:hover {
+    text-decoration: underline;
+}
+
 .advanced-filter-content li:hover {
     label {
         transition: color 150ms ease-out;
