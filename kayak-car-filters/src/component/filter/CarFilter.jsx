@@ -31,12 +31,26 @@ class CarFilter extends React.Component {
         };
     }
 
+    onBasicButtonClick = index => e => {
+        let filters = [...this.state.filters];
+
+        let filter = filters[index];
+        filter.selected = true;
+
+        filters.forEach((e, i) => {
+            if (filter.multipleSelect && !e.multipleSelect || !filter.multipleSelect && e.multipleSelect)
+                filters[i].selected = false;
+        });
+
+        this.setState(filters);
+    }
+
     render() {
         const { filters } = this.state;
 
         return (
             <div className="car-filter">
-                { filters.map((e, _) => <BasicFilterButton className={(e.selected ? 'selected' : '')} title={e.title} price={e.price} />)}
+                { filters.map((e, i) => <BasicFilterButton onClick={this.onBasicButtonClick(i)} className={(e.selected ? 'selected' : '')} title={e.title} price={e.price} />)}
             </div>
         );
     }

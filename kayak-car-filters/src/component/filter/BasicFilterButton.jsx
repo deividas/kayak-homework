@@ -1,10 +1,10 @@
 import React from 'react';
 
 function BasicFilterButton(props) {
-    const { title, price, className } = props;
+    const { title, price, className, onClick } = props;
 
     return (
-        <button type="button" className={`filter-button ${className}`}>
+        <button type="button" onClick={onClick} className={`filter-button ${className}`}>
             { title }
             { price != null && 
                 <span className="side-text">
