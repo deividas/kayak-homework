@@ -21,6 +21,7 @@ public class FrequenciesApplication extends Application {
         FrequenciesView view = new FrequenciesView(model, controller);
 
         primaryStage.setTitle(TITLE);
+        primaryStage.setResizable(false);
         primaryStage.setAlwaysOnTop(true);
         primaryStage.setScene(new Scene(view.asParent(), WIDTH, HEIGHT));
         primaryStage.show();
