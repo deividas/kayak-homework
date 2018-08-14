@@ -54,14 +54,15 @@ button:focus {
     padding: 0;
 }
 
-.advanced-filter-button .filter-title {
-    padding: 0 10px;
+.advanced-filter-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.advanced-filter-button .icon {
-    margin-top: 4px;
-    margin-right: 12px;
-    line-height: 5px;
+.advanced-filter-button .filter-title {
+    padding-left: 16px;
+    padding-right: 11px;
 }
 
 .advanced-filter-container {
