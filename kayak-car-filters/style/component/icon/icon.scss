@@ -1,3 +1,21 @@
 .icon {
     height: 7px;
+    transition: transform .1s ease-in-out;
+}
+
+.icon.reverse {
+    transform: rotate(180deg); 
+}
+
+.checkbox {
+    border: 1px solid #92aabb;
+    width: 18px;
+    height: 18px;
+    transition: border-color 250ms ease-out,background-color 250ms ease-out;
+}
+
+.checkbox.checked {
+    border: 1px solid #1e93f5;
+    background: #1e93f5;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjQuNSA0LjUgMjIgMjIiPjxwYXRoIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTI0LjQyIDkuMDFjLjExLjEuMTIuMjcuMDMuMzhMMTMuNzQgMjIuMzFjLS4wNi4wNy0uMTUuMTEtLjIzLjEtLjA1LS4wMS0uMTEtLjAzLS4xNS0uMDZsLTYuODUtNS42MmMtLjEyLS4xLS4xMy0uMjYtLjA0LS4zN2wxLjU1LTJjLjA5LS4xMi4yNi0uMTMuMzctLjA0bDQuNjUgMy45MUwyMi4wNSA3LjVjLjA5LS4xMS4yNi0uMTIuMzctLjAzbDIgMS41NHptMCAwIi8+PC9zdmc+");
 }

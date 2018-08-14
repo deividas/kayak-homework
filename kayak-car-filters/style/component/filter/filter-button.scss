@@ -7,6 +7,10 @@ button::-moz-focus-inner {
     border: 0;
 }
 
+button:focus {
+    outline:0;
+}
+
 .filter-button {
     color: $default-text-color;
     background-color: $default-color;
@@ -58,4 +62,70 @@ button::-moz-focus-inner {
     margin-top: 4px;
     margin-right: 12px;
     line-height: 5px;
+}
+
+.advanced-filter-container {
+    cursor: default;
+    
+    position: fixed;
+    list-style-type: none;
+
+    box-shadow: 0 3px 12px 1px rgba(0, 0, 0, 0.26);
+    color: $default-text-color;
+
+    margin-top: 4px;
+    border-radius: 2px;
+}
+
+.advanced-filter-content {
+    width: 290px;
+    margin: 15px 10px;
+}
+
+.advanced-filter-content li, .advanced-filter-content label {
+    cursor: pointer;
+}
+
+.advanced-filter-content li {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.advanced-filter-content li:hover {
+    background-color: #f1f4f7;
+}
+
+.advanced-filter-content label {
+    color: #17232c;
+    padding-left: 8px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.advanced-filter-content .filter-dropdown-side-text {
+    color: #6d8494;
+    font-size: 13px;
+    margin-left: auto;
+    font-family: sans-serif;
+}
+
+.advanced-filter-content li:hover {
+    label {
+        transition: color 150ms ease-out;
+        color: #1e93f5;
+    }
+
+    .checkbox {
+        transition: border 150ms ease-out;
+        border: 1px solid #1e93f5;
+    }
+
+}
+
+.filter-multiple-select {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
 }
