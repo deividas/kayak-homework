@@ -1,0 +1,45 @@
+$default-color: white;
+$default-text-color: #51697a;
+$selected-color: #1e93f5;
+$selected-text-color: white;
+
+button::-moz-focus-inner {
+    border: 0;
+}
+
+.filter-button {
+    color: $default-text-color;
+    background-color: $default-color;
+
+    height: 30px;
+    line-height: 28px;
+
+    margin: 0 4px 0 0;
+    padding: 0 16px;
+
+    border: 1px solid #e0e7ed;
+    border-radius: 2px;
+
+    font-family: 'Helvetica';
+    font-weight: 600;
+}
+
+.filter-button.selected {
+    color: $selected-text-color;
+    background-color: $selected-color;
+}
+
+.filter-button .side-text {
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.filter-button.selected, .filter-button:hover {
+    background-color: $selected-color;
+    border-color: $selected-color;
+    color: $selected-text-color;
+}
+
+.filter-button:hover {
+    cursor: pointer;
+}
